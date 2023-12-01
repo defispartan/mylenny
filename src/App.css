@@ -1,0 +1,49 @@
+h1 {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.card {
+  margin: 0 auto;
+  margin-top: 60px;
+  padding: 20px;
+}
+
+.card img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 50px auto;
+}
+
+.card div {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.card input,
+.card button {
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+}
+
+.card input:focus {
+  outline: none;
+}
+
+.card button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background-color: #0056b3;
+}
