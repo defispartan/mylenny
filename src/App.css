@@ -7,8 +7,8 @@ h1 {
 }
 
 .card {
+  width: 100vw;
   margin: 0 auto;
-  margin-top: 60px;
   padding: 20px;
 }
 
