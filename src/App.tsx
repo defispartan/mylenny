@@ -48,6 +48,7 @@ function App() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      setNftData("");
       console.error("Error fetching NFT data:", error);
     }
   };
@@ -60,9 +61,7 @@ function App() {
 
   return (
     <>
-      <header>
-        <h1>View Lens Profile NFT</h1>
-      </header>
+      <h1>View Lens Profile NFT</h1>
       <div className="card">
         {profileId !== undefined && nftData !== undefined && !loading && (
           <img src={nftData} alt={`Profile ${profileId}`} />
