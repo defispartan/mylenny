@@ -4,8 +4,9 @@ import "./App.css";
 import { polygon } from "viem/chains";
 
 function App() {
-  const [profileId, setProfileId] = useState<number | undefined>(undefined);
-  const [nftData, setNftData] = useState<string>("");
+  const [profileId, setProfileId] = useState<number>(0);
+  const [nftData, setNftData] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const publicClient = createPublicClient({
     chain: polygon,
@@ -24,6 +25,7 @@ function App() {
   // Fetch NFT data using the fetch API
   const fetchNFTData = async (tokenId: number) => {
     try {
+      setLoading(true);
       const data = await publicClient.readContract({
         address: "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d",
         abi: [
@@ -43,13 +45,15 @@ function App() {
       const imageBase64 = JSON.parse(atob(data.split(",")[1])).image;
 
       setNftData(imageBase64);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error fetching NFT data:", error);
     }
   };
 
   const handleEnterProfileId = () => {
-    if (profileId) {
+    if (profileId !== 0) {
       fetchNFTData(profileId);
     }
   };
@@ -57,28 +61,34 @@ function App() {
   return (
     <>
       <header>
-        <h1>View Lens Profile Image</h1>
+        <h1>View Lens Profile NFT</h1>
       </header>
-      <body>
-        <div className="card">
-          {Boolean(profileId) && Boolean(nftData) && (
-            <img src={nftData} alt={`Profile ${profileId}`} />
-          )}
+      <div className="card">
+        {profileId !== undefined && nftData !== undefined && !loading && (
+          <img src={nftData} alt={`Profile ${profileId}`} />
+        )}
+        {loading && <div className="react-loading-spinner" />}
 
-          <div>
-            <input
-              type="text"
-              className="profile-input"
-              placeholder="Enter Lens Profile ID"
-              value={profileId}
-              onChange={(e) => {
-                if (e.target.value) setProfileId(Number(e.target.value));
-              }}
-            />
-            <button onClick={() => handleEnterProfileId()}>Enter</button>
-          </div>
+        <div>
+          <input
+            type="number"
+            className="profile-input"
+            placeholder="Enter Lens Profile ID"
+            value={profileId !== 0 ? profileId : ""}
+            onChange={(e) => {
+              e.target.value === ""
+                ? setProfileId(0)
+                : setProfileId(Number(e.target.value));
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleEnterProfileId();
+              }
+            }}
+          />
+          <button onClick={() => handleEnterProfileId()}>Enter</button>
         </div>
-      </body>
+      </div>
     </>
   );
 }
