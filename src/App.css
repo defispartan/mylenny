@@ -76,3 +76,14 @@ h1 {
     transform: rotate(360deg);
   }
 }
+
+.input-stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-input {
+  width: 200px;
+}
